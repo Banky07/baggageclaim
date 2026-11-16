@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lost baggage claim letter</title>
+<!-- ANALYTICS: paste ONE snippet here. Example for Plausible (replace the domain):
+<script defer data-domain="yourdomain.com" src="https://plausible.io/js/script.js"></script>
+The page already reports events through track(). See README.md. -->
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root{--bg:#f2f5f8;--panel:#fff;--ink:#12263a;--mute:#51657a;--line:#c9d3dd;--acc:#0a6c74;--accfg:#fff;--warn:#b4400a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0f1b27;--panel:#16283a;--ink:#e7eef5;--mute:#9fb2c4;--line:#2d4358;--acc:#4fc3cc;--accfg:#08222a;--warn:#f0a070}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0f1b27;--panel:#16283a;--ink:#e7eef5;--mute:#9fb2c4;--line:#2d4358;--acc:#4fc3cc;--accfg:#08222a;--warn:#f0a070}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1120px;margin:0 auto;padding:20px 16px 48px}
+h1{font-size:1.7rem;line-height:1.2;margin:0 0 6px;letter-spacing:-.01em}
+h2{font-size:1.05rem;margin:0 0 10px}
+.lede{color:var(--mute);max-width:60ch;margin:0 0 20px}
+.grid{display:grid;gap:20px}
+@media(min-width:900px){.grid{grid-template-columns:minmax(0,5fr) minmax(0,6fr);align-items:start}.sticky{position:sticky;top:16px}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:16px}
+label{display:block;font-weight:700;font-size:.92rem;margin:12px 0 4px}
+.hint{font-weight:400;color:var(--mute)}
+select,input[type=text],input[type=tel],input[type=email],input[type=date],textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:10px}
+textarea{resize:vertical}
+.row{display:grid;gap:0 12px}
+@media(min-width:520px){.row{grid-template-columns:1fr 1fr}}
+.chk{display:flex;gap:10px;align-items:flex-start;font-weight:400;margin:8px 0}
+.chk input{margin-top:5px;width:18px;height:18px;accent-color:var(--acc)}
+button{font:inherit;font-weight:700;border-radius:6px;padding:10px 14px;cursor:pointer;border:1px solid var(--acc);background:transparent;color:var(--acc)}
+button.main{background:var(--acc);color:var(--accfg)}
+button:disabled{opacity:.55;cursor:default}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+#letter{min-height:420px;font:14px/1.6 ui-monospace,Menlo,Consolas,monospace;white-space:pre-wrap}
+.status{min-height:1.4em;color:var(--mute);font-size:.9rem;margin:8px 0 0}
+.agency{border-top:1px solid var(--line);padding:10px 0}
+.agency:first-of-type{border-top:0}
+.agency b{display:block}
+.warn{color:var(--warn)}
+ul.tips{margin:0;padding-left:20px}ul.tips li{margin:6px 0}
+.steps{display:flex;flex-wrap:wrap;gap:6px 28px;padding-left:20px;margin:0 0 8px;font-weight:700}
+a.btn{display:inline-block;font-weight:700;border:1px solid var(--acc);color:var(--acc);border-radius:6px;padding:10px 14px;text-decoration:none}
+.bar{display:none}
+@media(max-width:899px){.bar{display:flex;gap:10px;position:fixed;left:0;right:0;bottom:0;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));background:var(--panel);border-top:1px solid var(--line);z-index:5}.bar button{flex:1}.wrap{padding-bottom:96px}}
+</style></head>
+<body><div class="wrap">
+<h1>Lost baggage claim letter</h1>
+<p class="lede">Your bag did not arrive? You get a formal complaint letter you can edit, save as a PDF and send to the airline and the regulators.</p>
+<ol class="steps"><li>Fill in your flight and bag details</li><li>Check and edit the letter</li><li>Download the PDF and email it</li></ol>
+<p class="hint" style="margin:0 0 20px">This page does not save what you type. The optional wording tidy-up sends your account of what happened to an AI service.</p>
+<div class="grid">
+<div>
+<div class="panel"><h2>Before you leave the airport</h2>
+<ul class="tips">
+<li>Get the Property Irregularity Report (PIR) filled in at the baggage desk. Keep a copy and the reference number.</li>
+<li>Photograph the PIR, your boarding pass and the bag tag stub.</li>
+<li>Ask the airline in writing for hotel, meals and transport if you are stranded. Note the staff name and time.</li>
+<li>Keep receipts for anything you have to buy.</li>
+</ul></div>
+<div class="panel"><h2>Which letter do you need?</h2>
+<label for="ltype">Letter type <span class="hint">start with 1, use 2 and 3 if the airline does not reply</span></label>
+<select id="ltype"><option value="complaint">1. Complaint to the airline</option><option value="followup">2. Follow-up to the airline (no reply)</option><option value="escalate">3. Complaint to the NCAA</option></select>
+<div class="fu" hidden><label for="first">Date you first wrote to the airline</label><input id="first" type="date">
+<label for="reply">What the airline has said so far <span class="hint">if anything</span></label><textarea id="reply" rows="3"></textarea></div></div>
+<div class="panel"><h2>Your details</h2>
+<div class="row"><div><label for="name">Full name</label><input id="name" type="text" autocomplete="name"></div>
+<div><label for="phone">Phone</label><input id="phone" type="tel" autocomplete="tel"></div></div>
+<label for="email">Email</label><input id="email" type="email" autocomplete="email">
+<label for="addr">Delivery address <span class="hint">where the bag should be sent</span></label><input id="addr" type="text" autocomplete="street-address">
+</div>
+<div class="panel"><h2>Flight</h2>
+<div class="row"><div><label for="airline">Airline</label><select id="airline"></select><input id="airlineOther" type="text" placeholder="Airline name" aria-label="Airline name" hidden style="margin-top:8px"></div>
+<div><label for="flight">Flight number</label><input id="flight" type="text"></div></div>
+<div class="row"><div><label for="date">Flight date</label><input id="date" type="date"></div>
+<div><label for="pir">PIR reference <span class="hint">if you have it</span></label><input id="pir" type="text"></div></div>
+<div class="row"><div><label for="from">From</label><input id="from" type="text" placeholder="Lagos"></div>
+<div><label for="to">To</label><input id="to" type="text"></div></div>
+</div>
+<div class="panel"><h2>Baggage</h2>
+<div class="row"><div><label for="bags">Bags missing</label><input id="bags" type="text" value="1"></div>
+<div><label for="value">Estimated value of contents <span class="hint">NGN</span></label><input id="value" type="text"></div></div>
+<label for="desc">Bag description <span class="hint">colour, brand, size, tag number</span></label><textarea id="desc" rows="2"></textarea>
+<label for="story">What happened <span class="hint">in your own words</span></label><textarea id="story" rows="4" placeholder="What the airline told you, who you spoke to, and what it has cost you so far."></textarea>
+<div class="actions"><button id="polish" type="button">Tidy my wording with AI</button></div>
+<p class="status" id="pstatus">Optional. Skip it to keep everything on your device.</p>
+</div>
+<div class="panel"><h2>What you are asking for</h2>
+<label class="chk"><input type="checkbox" name="want" value="locate" checked> Find my bag and deliver it to me at no cost</label>
+<label class="chk"><input type="checkbox" name="want" value="lodging"> Hotel, meals and transport while I am without my bag</label>
+<label class="chk"><input type="checkbox" name="want" value="comp" checked> Compensation, and repayment of essentials I had to buy</label>
+<label class="chk"><input type="checkbox" name="want" value="explain" checked> A written explanation and a delivery date</label>
+</div>
+</div>
+<div class="sticky">
+<div class="panel" id="letterpanel"><h2>Your letter <span class="hint">edit anything below</span></h2>
+<textarea id="letter" aria-label="Letter text"></textarea>
+<div class="actions"><button class="main" id="pdf" type="button">Download PDF</button><button id="copy" type="button">Copy text</button><button id="regen" type="button">Reset from form</button></div>
+<p class="status" id="status" role="status"></p></div>
+<div class="panel"><h2>Where to send it</h2><div id="agencies"></div>
+<p class="hint" id="verified" style="margin:10px 0 0"></p></div>
+<div class="panel"><h2>Know someone stuck at an airport?</h2><p class="hint" style="margin:0 0 10px">Send them this page.</p><div class="actions" style="margin-top:0"><a class="btn share" id="shareWa" target="_blank" rel="noopener">Share on WhatsApp</a><a class="btn share" id="shareLi" target="_blank" rel="noopener">Share on LinkedIn</a></div></div>
+</div></div></div>
+<div class="bar"><button type="button" id="seeLetter">Preview letter</button><button type="button" class="main" id="barPdf">Download PDF</button></div>
+<script>
+// ---- Settings for the owner of this page ----
+// POLISH_ENDPOINT: URL of your own backend that calls Groq/NVIDIA and returns {"text":"..."}. Never put an API key in this file.
+const POLISH_ENDPOINT = "/api/polish";
+// Add each address only after checking it on the agency's official website.
+const LAST_VERIFIED = "16 November 2026";
+// Each address below was taken from the organisation's own website or official channels on that date. Re-check before you rely on them.
+const AIRLINES = [
+  {name:"Air Peace", email:"callcenter@flyairpeace.com"},
+  {name:"Aero Contractors", email:"aero@acn.aero"},
+  {name:"Arik Air", email:"callcentre@arikair.com"},
+  {name:"Ibom Air", email:"info@ibomair.com"},
+  {name:"Overland Airways", email:"fly@overlandairways.com"},
+  {name:"United Nigeria Airlines", email:"customerservice@flyunitednigeria.com"},
+  {name:"ValueJet", email:"contactcenter@flyvaluejet.com"},
+  {name:"XEJet", email:"reservations@xejet.com"},
+  {name:"Max Air", email:"cs@maxair.com.ng"}
+];
+const AGENCIES = [
+  {name:"Nigerian Civil Aviation Authority (NCAA), Consumer Protection", role:"Copy the regulator. You can also file online at cpd.ncaa.gov.ng", email:"cpd@ncaa.gov.ng"},
+  {name:"Federal Competition and Consumer Protection Commission (FCCPC)", role:"Escalate here if the NCAA does not resolve it", email:"contact@fccpc.gov.ng"}
+];
+// ---------------------------------------------
+const $=id=>document.getElementById(id);
+function track(n,p){try{if(window.plausible)window.plausible(n,{props:p});if(window.gtag)window.gtag("event",n,p);if(window.umami)window.umami.track(n,p)}catch(e){}}
+let edited=false, polished="";
+const wants={locate:"Find my baggage and deliver it to my address at no cost to me.",lodging:"Provide accommodation, meals and transport while I am without my baggage.",comp:"Pay fair compensation for the loss, delay and inconvenience, and repay the cost of essentials I had to buy.",explain:"Give me a written explanation of what happened and the date my baggage will be delivered."};
+function v(id,f){return ($(id).value||"").trim()||f}
+function airlineName(){const s=$("airline").value;return s==="other"?v("airlineOther","[airline]"):(s||"[airline]")}
+function buildComplaint(){
+  const today=new Date().toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});
+  const fd=$("date").value?new Date($("date").value).toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"}):"[flight date]";
+  const asks=[...document.querySelectorAll("input[name=want]:checked")].map((c,i)=>(i+1)+". "+wants[c.value]).join("\n")||"1. Resolve this matter promptly.";
+  const story=polished||v("story","[describe what happened]");
+  const val=v("value","")?"\nThe estimated value of the contents is NGN "+v("value","")+". I can provide receipts or proof where available.":"";
+  return `${today}
+
+The Customer Relations Manager
+${airlineName()}
+
+Copy: Nigerian Civil Aviation Authority (Consumer Protection); Federal Competition and Consumer Protection Commission
+
+Dear Sir or Madam,
+
+FORMAL COMPLAINT AND CLAIM: MISSING CHECKED BAGGAGE
+Flight ${v("flight","[flight number]")}, ${fd}, ${v("from","[origin]")} to ${v("to","[destination]")}
+PIR reference: ${v("pir","[not yet issued]")}
+
+I was a passenger on the flight above. ${v("bags","1")} checked bag(s) did not arrive with me.
+
+Bag description: ${v("desc","[description and tag number]")}
+
+${story}
+${val}
+
+I am asking you to do the following:
+${asks}
+
+Please reply in writing within 7 days of receiving this letter. If I do not receive a satisfactory response, I will escalate this complaint to the regulators and pursue the remedies available to me under Nigerian consumer protection law and applicable international rules on carrier liability for baggage.
+
+Yours faithfully,
+
+${v("name","[your name]")}
+Phone: ${v("phone","[phone]")}
+Email: ${v("email","[email]")}
+Delivery address: ${v("addr","[address]")}`}
+function sig(){return `Yours faithfully,
+
+${v("name","[your name]")}
+Phone: ${v("phone","[phone]")}
+Email: ${v("email","[email]")}
+Delivery address: ${v("addr","[address]")}`}
+function ctx(){
+  const f=d=>d?new Date(d).toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"}):"[date]";
+  const fd=f($("date").value);
+  return {today:f(new Date().toISOString().slice(0,10)),first:f($("first").value),air:airlineName(),
+    asks:[...document.querySelectorAll("input[name=want]:checked")].map((c,i)=>(i+1)+". "+wants[c.value]).join("\n")||"1. Resolve this matter promptly.",
+    story:polished||v("story","[describe what happened]"),
+    ref:`Flight ${v("flight","[flight number]")}, ${fd}, ${v("from","[origin]")} to ${v("to","[destination]")}
+PIR reference: ${v("pir","[not yet issued]")}`,
+    bag:v("desc","[description and tag number]"),
+    said:v("reply","")?`
+
+What I have been told so far: ${v("reply","")}`:""};
+}
+function buildFollow(){const c=ctx();return `${c.today}
+
+The Customer Relations Manager
+${c.air}
+
+Copy: Nigerian Civil Aviation Authority (Consumer Protection)
+
+Dear Sir or Madam,
+
+FOLLOW-UP: MISSING CHECKED BAGGAGE
+${c.ref}
+
+I wrote to you on ${c.first} about my missing baggage (${c.bag}). I have not received a satisfactory response.${c.said}
+
+${c.story}
+
+I ask again for the following:
+${c.asks}
+
+If I do not receive a written response within 7 days of this letter, I will file a complaint with the NCAA Consumer Protection department and the FCCPC without further notice.
+
+${sig()}`}
+function buildEscalate(){const c=ctx();return `${c.today}
+
+The Director, Consumer Protection
+Nigerian Civil Aviation Authority
+Email: cpd@ncaa.gov.ng
+
+Copy: ${c.air}
+
+Dear Sir or Madam,
+
+COMPLAINT AGAINST ${c.air.toUpperCase()}: MISSING CHECKED BAGGAGE
+${c.ref}
+
+I am asking the NCAA to take up this complaint under the passenger protection rules in Part 19 of the Nigeria Civil Aviation Regulations 2023.
+
+I complained to the airline in writing on ${c.first} and the matter has not been resolved to my satisfaction.${c.said}
+
+Bag description: ${c.bag}
+
+${c.story}
+
+I ask the NCAA to investigate and to require the airline to:
+${c.asks}
+
+Attached: Property Irregularity Report, boarding pass, bag tag stub, my letters to the airline, and receipts.
+
+${sig()}`}
+function build(){const t=$("ltype").value;return t==="followup"?buildFollow():t==="escalate"?buildEscalate():buildComplaint()}
+function regen(){document.querySelectorAll(".fu").forEach(e=>e.hidden=$("ltype").value==="complaint");$("letter").value=build();renderAgencies()}
+function status(t){$("status").textContent=t}
+function renderAgencies(){
+  const body=encodeURIComponent($("letter").value.slice(0,1800));
+  const subj=encodeURIComponent("Complaint: missing baggage, flight "+v("flight",""));
+  const sel=$("airline").value,found=AIRLINES.find(x=>x.name===sel);
+  const first=found?{name:found.name+" customer relations",role:"Send the letter here first",email:found.email}:{name:"Airline customer relations",role:sel==="other"?"Find this airline's customer care email on its own website and send the letter there first.":"Choose your airline above to see where to send the letter first.",email:""};
+  const t=$("ltype").value,ncaa=AGENCIES[0],fccpc=AGENCIES[1];
+  const list=t==="escalate"?[{...ncaa,role:"Send the complaint here. You can also file online at cpd.ncaa.gov.ng"},{...first,role:first.email?"Copy the airline":first.role},{...fccpc}]:[first,...AGENCIES];
+  $("agencies").innerHTML=list.map(a=>{
+    const act=a.email?`<a href="mailto:${a.email}?subject=${subj}&body=${body}">${a.email}</a>`:"";
+    return `<div class="agency"><b>${a.name}</b><span class="hint">${a.role}</span>${act?"<br>"+act:""}</div>`}).join("");
+  $("verified").textContent=(LAST_VERIFIED?"Addresses last checked: "+LAST_VERIFIED+". ":"")+(t==="escalate"?"Attach your PIR, boarding pass, bag tag and your earlier letters.":"Send to the airline first. The NCAA asks passengers to give the airline a chance to resolve the complaint before escalating.");
+}
+document.querySelectorAll("input,textarea").forEach(e=>{if(e.id!=="letter")e.addEventListener("input",()=>{if(!edited)regen()})});
+document.querySelectorAll("input[name=want]").forEach(e=>e.addEventListener("change",()=>{if(!edited)regen()}));
+$("letter").addEventListener("input",()=>{edited=true;renderAgencies()});
+$("airline").innerHTML='<option value="">Choose your airline</option>'+AIRLINES.map(a=>`<option>${a.name}</option>`).join("")+'<option value="other">Other airline</option>';
+$("airline").addEventListener("change",()=>{track("airline_selected",{airline:airlineName()});$("airlineOther").hidden=$("airline").value!=="other";if(!edited)regen();else renderAgencies()});
+const shareText="Lost your bag at the airport? Make a complaint letter in a few minutes: "+location.href;
+$("shareWa").href="https://wa.me/?text="+encodeURIComponent(shareText);
+$("shareLi").href="https://www.linkedin.com/sharing/share-offsite/?url="+encodeURIComponent(location.href);
+document.querySelectorAll("a.share").forEach(a=>a.addEventListener("click",()=>track("share_clicked",{via:a.id})));
+$("agencies").addEventListener("click",e=>{if(e.target.closest("a"))track("email_opened")});
+$("seeLetter").onclick=()=>$("letterpanel").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
+$("barPdf").onclick=()=>$("pdf").click();
+$("ltype").addEventListener("change",()=>{track("letter_type",{type:$("ltype").value});edited=false;regen()});
+$("regen").onclick=()=>{edited=false;regen();status("Letter reset from the form.")};
+$("copy").onclick=async()=>{try{await navigator.clipboard.writeText($("letter").value);status("Copied.");track("letter_copied")}catch(e){$("letter").select();status("Press copy on your keyboard to finish.")}};
+let warned="";
+$("pdf").onclick=()=>{
+  const miss=[...new Set(($("letter").value.match(/\[[^\]]+\]/g)||[]))],key=miss.join("|");
+  if(miss.length&&warned!==key){warned=key;status("Still blank: "+miss.join(", ")+". Fill them in, or press Download PDF again to save anyway.");return}
+  warned="";
+  const lib=window.jspdf&&window.jspdf.jsPDF;
+  if(!lib){status("The PDF tool did not load. Check your connection and try again.");return}
+  const d=new lib({unit:"pt",format:"a4"}),m=56,w=d.internal.pageSize.getWidth()-m*2,hh=d.internal.pageSize.getHeight()-m;
+  d.setFont("helvetica","normal");d.setFontSize(11);let y=m;
+  for(const p of $("letter").value.split("\n")){for(const l of (p?d.splitTextToSize(p,w):[""])){if(y>hh){d.addPage();y=m}d.text(l,m,y);y+=15}}
+  d.save("baggage-claim-letter.pdf");status("PDF saved. Next, email it to the addresses under Where to send it, and attach photos of your PIR, boarding pass and bag tag.");track("pdf_downloaded",{type:$("ltype").value,airline:airlineName()})};
+$("polish").onclick=async()=>{
+  const s=$("pstatus"),t=v("story","");
+  if(!t){s.textContent="Write what happened first.";return}
+  if(!POLISH_ENDPOINT){s.textContent="AI wording is not connected in this version. The letter uses your own words.";return}
+  $("polish").disabled=true;s.textContent="Tidying…";
+  try{const r=await fetch(POLISH_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text:t})});
+    const j=await r.json();if(!j.text)throw 0;polished=j.text;s.textContent="Done. Check the wording in the letter.";if(!edited)regen()}
+  catch(e){polished="";s.textContent="Could not tidy the text. The letter uses your own words.";}
+  $("polish").disabled=false};
+regen();
+</script></body></html>
