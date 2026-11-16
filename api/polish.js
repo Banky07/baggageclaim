@@ -49,13 +49,18 @@ module.exports = async (req, res) => {
         messages: [{ role: "system", content: SYSTEM }, { role: "user", content: text }]
       })
     });
-    if (!r.ok) return res.status(502).json({ error: "The AI service did not respond" });
+    if (!r.ok) {
+      const body = (await r.text()).slice(0, 300);
+      console.error("LLM error", r.status, body);
+      return res.status(502).json({ error: "The AI service did not respond", detail: "Provider returned " + r.status });
+    }
     const j = await r.json();
     const out = String((j.choices && j.choices[0] && j.choices[0].message && j.choices[0].message.content) || "").trim();
     if (!out) return res.status(502).json({ error: "Empty reply" });
     return res.status(200).json({ text: out });
   } catch (e) {
-    return res.status(502).json({ error: "The AI service did not respond" });
+    console.error("LLM fetch failed", e && e.name, e && e.message);
+    return res.status(502).json({ error: "The AI service did not respond", detail: "Request failed: " + (e && e.name) });
   } finally {
     clearTimeout(timer);
   }
