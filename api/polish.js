@@ -35,7 +35,7 @@ module.exports = async (req, res) => {
   if (text.length > 2000) return res.status(400).json({ error: "Text too long" });
 
   const base = (process.env.LLM_BASE_URL || "https://api.groq.com/openai/v1").replace(/\/$/, "");
-  const model = process.env.LLM_MODEL || "llama-3.3-70b-versatile";
+  const model = process.env.LLM_MODEL || "openai/gpt-oss-20b";
 
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), 15000);
@@ -44,10 +44,10 @@ module.exports = async (req, res) => {
       method: "POST",
       signal: ctrl.signal,
       headers: { "Content-Type": "application/json", Authorization: "Bearer " + key },
-      body: JSON.stringify({
-        model, temperature: 0.2, max_tokens: 500,
+      body: JSON.stringify(Object.assign({
+        model, temperature: 0.2, max_tokens: 1500,
         messages: [{ role: "system", content: SYSTEM }, { role: "user", content: text }]
-      })
+      }, /gpt-oss/.test(model) ? { reasoning_effort: "low" } : {}))
     });
     if (!r.ok) {
       const body = (await r.text()).slice(0, 300);
